@@ -52,6 +52,15 @@ async clearImages(
   await this.imageService.clearImages();
 }
 
+@MessagePattern({ cmd: 'clear-images' })
+async cl2(
+  @Ctx() context: RmqContext,
+) {
+  const channel = context.getChannelRef();
+  const message = context.getMessage();
+  channel.ack(message);
 
+  await this.imageService.clearImages();
+}
 
 }
